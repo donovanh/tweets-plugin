@@ -49,6 +49,28 @@ Make sure and replace <code>searchPhrase</code> with a search relevant to your r
 
 Replace the <code>tweetSource</code> with the URL of your Node.js app. If testing locally, this would be <code>http://localhost:5000</code>
 
+### Creating your own template
+
+Since this plugin uses Handlebars for the templating, you can specify your own template. Here's one to start with:
+
+    <script type="text/x-handlebars-template" id="tweet-template">
+      <article class="tweet">
+        <section class="user-details">
+          <a href="http://twitter.com/{{from_user}}">
+            <div class="user-image" style="background-image: url({{profile_image_url}})"></div>
+            <p>
+              <strong>{{from_user_name}}</strong>
+              <span>{{from_user}}</span>
+            </p>
+          </a>
+        </section>
+        <p class="text">{{{text}}}</p>
+        <p class="timing"><a href="http://twitter.com/{{from_user}}/statuses/{{id_str}}">{{created_at}}</a></p>
+      </article>
+    </script>
+
+Specify the templateID in the above JavaScript to use your template in the views.
+
 ## Current version
 
 0.1 - Gotta start somewhere
