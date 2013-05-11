@@ -36,6 +36,14 @@
   -ms-border-radius: 1em;
   -o-border-radius: 1em;
   border-radius: 1em;
+  opacity: 1;
+  -webkit-transition: opacity 0.5s;
+  -moz-transition: opacity 0.5s;
+  -o-transition: opacity 0.5s;
+  transition: opacity 0.5s;
+}
+.tweets .tweet.new {
+  opacity: 0;
 }
 .tweets .tweet .user-details {
   margin-bottom: -5px;

@@ -28,6 +28,11 @@
     padding: 0.5em 5% 0 5%
     background-color: #fcf5ea
     @include border-radius(1em)
+    opacity: 1
+    @include transition(opacity 0.5s)
+
+    &.new
+      opacity: 0
 
     .user-details
       margin-bottom: -5px
