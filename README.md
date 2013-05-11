@@ -31,6 +31,8 @@ Download the [jquery.tweets.css](https://raw.github.com/donovanh/tweets-plugin/m
 
     <link href="/stylesheets/jquery.tweets.css" media="screen, projection" rel="stylesheet" type="text/css" />
 
+The **SASS** folder contains the SASS equivalent if you prefer your CSS pre-processed.
+
 ### Call the plugin in JS
 
 The plugin can be initialised as following:
@@ -69,7 +71,7 @@ Since this plugin uses Handlebars for the templating, you can specify your own t
       </article>
     </script>
 
-Specify the templateID in the above JavaScript to use your template in the views.
+Specify the <code>templateID</code> in the above JavaScript to use your template in the views.
 
 ## Current version
 
