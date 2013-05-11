@@ -28,8 +28,6 @@
         var init = function() {
             plugin.settings = options || defaults;
 
-            console.log(plugin.settings);
-
             // Check if the destination exists
             if ($('#'+plugin.settings.destinationID).length == 0) {
               console.log('Tweets plugin error: Please supply a destination element for the tweets.');
@@ -42,8 +40,6 @@
             }
 
             plugin.settings.searchPhrase = cleanSearchPhrase(plugin.settings.searchPhrase);
-
-            console.log(plugin.settings);
 
             // Get the tweet template
             if ($('#'+plugin.settings.templateID).length == 0) {
