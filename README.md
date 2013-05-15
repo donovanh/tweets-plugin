@@ -84,7 +84,7 @@ Specify the <code>templateID</code> in the above JavaScript to use your template
 ## Changelog
 
 ### 0.2
-Adding some streaming functionality. Documentation to follow.
+Adding some streaming functionality.
 
 ### 0.1
 Initial code
