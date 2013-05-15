@@ -17,6 +17,10 @@ Download the [jquery.tweets.js](https://raw.github.com/donovanh/tweets-plugin/ma
 
     <script src="/javascripts/jquery.tweets.js"></script>
 
+To make use of the Socket.io functionality, it is necessary to connect to your Tweets server. This downloads the Socket.io client side code automatically. Replace "YOUR_URL" with the URL of your Tweets server and add this script tag:
+
+    <script src="http://YOUR_URL/socket.io/socket.io.js"></script>
+
 ### Prepare the HTML
 
 Your Tweets output will need a container to be displayed. If you wish to use the attached CSS, add the following to your HTML first:
