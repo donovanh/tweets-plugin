@@ -198,7 +198,6 @@
             var index_map = {}
             
             $.each(tweet.entities.urls, function(i,entry) {
-                console.log(entry);
                 index_map[entry.indices[0]] = [entry.indices[1], function(text) {return "<a href='"+escapeHTML(entry.url)+"'>"+escapeHTML(entry.display_url)+"</a>"}]
             })
             
