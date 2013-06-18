@@ -63,10 +63,10 @@ Since this plugin uses Handlebars for the templating, you can specify your own t
       <article class="tweet">
         <section class="user-details">
           <a href="http://twitter.com/{{from_user}}">
-            <div class="user-image" style="background-image: url({{profile_image_url}})"></div>
+            <div class="user-image" style="background-image: url({{user.profile_image_url}})"></div>
             <p>
-              <strong>{{from_user_name}}</strong>
-              <span>{{from_user}}</span>
+              <strong>{{user.name}}</strong>
+              <span>{{user.screen_name}}</span>
             </p>
           </a>
         </section>
@@ -79,9 +79,14 @@ Specify the <code>templateID</code> in the above JavaScript to use your template
 
 ## Current version
 
+0.3 - Fixed for v1.1 of the API
 0.2 - Streamin'
 
 ## Changelog
+
+### 0.3
+v1.1 update
+Update to the template content to reflect updated status content
 
 ### 0.2
 Adding some streaming functionality.

@@ -52,9 +52,10 @@
             if (plugin.settings.searchPhrase.length > 0) {
               $.get(plugin.settings.tweetSource+'/search/'+plugin.settings.searchPhrase, function(data) {
                 var outputHTML = '';
-                if (data.results !== undefined && data.results.length > 0) {
-                  $.each(data.results, function(index, tweet) {
-                    tweet.text = linkify_entities(tweet);
+                console.log(data.statuses);
+                if (data.statuses !== undefined && data.statuses.length > 0) {
+                  $.each(data.statuses, function(index, tweet) {
+                    tweet.text = replaceURLWithHTMLLinks(tweet.text);
                     tweet.relative_timestamp = time_ago(tweet.created_at);
                     var template = Handlebars.compile(plugin.settings.templateHTML);
                     outputHTML += template(tweet);
@@ -75,7 +76,14 @@
         }
 
         // Default handlebars template
-        var tweet_template_default = '<article class="tweet"><section class="user-details"><a href="http://twitter.com/{{from_user}}"><div class="user-image" style="background-image: url({{profile_image_url}})"></div><p><strong>{{from_user_name}}</strong><span>{{from_user}}</span></p></a></section><p class="text">{{{text}}}</p><p class="timing" data-created-at="{{created_at}}"><a href="http://twitter.com/{{from_user}}/statuses/{{id_str}}">{{relative_timestamp}}</a></p></article>';
+        var tweet_template_default = '<article class="tweet">\
+        <section class="user-details">\
+        <a href="http://twitter.com/{{from_user}}">\
+        <div class="user-image" style="background-image: url({{user.profile_image_url}})"></div>\
+        <p><strong>{{user.name}}</strong><span>{{user.screen_name}}</span></p></a></section>\
+        <p class="text">{{{text}}}</p><p class="timing" data-created-at="{{created_at}}">\
+        <a href="http://twitter.com/{{from_user}}/statuses/{{id_str}}">{{relative_timestamp}}</a>\
+        </p></article>';
 
 
         // plugin.foo_public_method = function() {
@@ -93,10 +101,7 @@
         }
 
         var addToTopOfList = function(tweet, settings) {
-          if (tweet.user === undefined) {
-            return;
-          }
-          tweet.text = linkify_entities(tweet);
+          tweet.text = replaceURLWithHTMLLinks(tweet.text);
           tweet.relative_timestamp = time_ago(tweet.created_at);
           tweet.from_user = tweet.user.screen_name;
           tweet.profile_image_url = tweet.user.profile_image_url;
@@ -136,6 +141,11 @@
             var relativeDate = time_ago(originalDate);
             $(dateHTML).find('a').text(relativeDate);
           });
+        }
+
+        var replaceURLWithHTMLLinks = function(text) {
+          var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+          return text.replace(exp,"<a href='$1'>$1</a>"); 
         }
 
         var time_ago = function(time){
@@ -183,56 +193,6 @@
                       return Math.floor(seconds / format[2]) + ' ' + format[1] + ' ' + token;
               }
           return time;
-        }
-
-        var escapeHTML = function (text) {
-            return $('<div/>').text(text).html()
-        }
-           
-        var linkify_entities = function (tweet) {
-            if (!(tweet.entities)) {
-                return escapeHTML(tweet.text)
-            }
-            
-            // This is very naive, should find a better way to parse this
-            var index_map = {}
-            
-            $.each(tweet.entities.urls, function(i,entry) {
-                index_map[entry.indices[0]] = [entry.indices[1], function(text) {return "<a href='"+escapeHTML(entry.url)+"'>"+escapeHTML(entry.display_url)+"</a>"}]
-            })
-            
-            $.each(tweet.entities.hashtags, function(i,entry) {
-                index_map[entry.indices[0]] = [entry.indices[1], function(text) {return "<a href='http://twitter.com/search?q="+escape("#"+entry.text)+"'>"+escapeHTML(text)+"</a>"}]
-            })
-            
-            $.each(tweet.entities.user_mentions, function(i,entry) {
-                index_map[entry.indices[0]] = [entry.indices[1], function(text) {return "<a title='"+escapeHTML(entry.name)+"' href='http://twitter.com/"+escapeHTML(entry.screen_name)+"'>"+escapeHTML(text)+"</a>"}]
-            })
-            
-            var result = ""
-            var last_i = 0
-            var i = 0
-            
-            // iterate through the string looking for matches in the index_map
-            for (i=0; i < tweet.text.length; ++i) {
-                var ind = index_map[i]
-                if (ind) {
-                    var end = ind[0]
-                    var func = ind[1]
-                    if (i > last_i) {
-                        result += escapeHTML(tweet.text.substring(last_i, i))
-                    }
-                    result += func(tweet.text.substring(i, end))
-                    i = end - 1
-                    last_i = end
-                }
-            }
-            
-            if (i > last_i) {
-                result += escapeHTML(tweet.text.substring(last_i, i))
-            }
-            
-            return result
         }
 
         init();
